@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>测评结果 · 爱的错位</title>
+<link rel="stylesheet" href="./css/style.css" />
+</head>
+<body>
+<div id="app">
+  <section class="screen on" id="s-loading">
+    <div class="mid-card">
+      <div class="spinner"></div>
+      <div class="load-step">正在读取测评结果……</div>
+    </div>
+  </section>
+
+  <section class="screen" id="s-result">
+    <div id="capture"></div>
+    <div class="no-capture">
+      <div class="result-code-box">
+        <div style="font-size:12.5px;color:var(--ink3)">这是 TA 的测评结果（结果码 <span id="result-code"></span>）</div>
+      </div>
+      <div class="action-grid">
+        <button class="btn btn-main" id="btn-save-img">📷 保存长图</button>
+        <button class="btn btn-gold" id="btn-copy-link">🔗 复制结果链接</button>
+        <button class="btn btn-main wide" id="btn-mine">✨ 我也要测一次</button>
+      </div>
+      <div class="foot">本测试为娱乐性自我觉察工具，非临床心理诊断。结果仅供反思与沟通参考。</div>
+    </div>
+  </section>
+
+  <section class="screen" id="s-error">
+    <div class="mid-card">
+      <div class="mid-emoji">🫥</div>
+      <div class="mid-title serif">结果不存在</div>
+      <div class="mid-text"><p style="text-align:center">这个结果链接无效或已失效，请确认链接是否完整复制。</p></div>
+      <a class="btn btn-main" href="./index.html" style="text-decoration:none;display:block;margin-top:20px">回到首页</a>
+    </div>
+  </section>
+</div>
+
+<!-- 长图弹窗 -->
+<div class="modal-mask" id="img-modal">
+  <div class="modal">
+    <div class="modal-title">📷 保存结果长图</div>
+    <div class="img-wrap"><img id="img-out" alt="测评结果长图" /></div>
+    <div class="img-hint" id="img-hint"></div>
+    <div class="btn-row">
+      <button class="btn btn-ghost" onclick="RPage.closeModal('img-modal')">关闭</button>
+      <button class="btn btn-main" id="btn-download-img">⬇️ 下载图片</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="./vendor/supabase.js"></script>
+<script src="./supabase-config.js"></script>
+<script src="./js/data.js"></script>
+<script src="./js/render.js"></script>
+<script src="./js/api.js"></script>
+<script src="./js/r.js"></script>
+</body>
+</html>

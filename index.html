@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="description" content="爱的错位：你是哪一种中国式家长？你又是哪一种孩子？24道题，测出你家爱的方式与接收方式之间的错位。" />
+<title>爱的错位 · 你是哪一种中国式家长？</title>
+<link rel="stylesheet" href="./css/style.css" />
+</head>
+<body>
+<div id="app">
+
+  <!-- ============ 第一屏：密码门 ============ -->
+  <section class="screen on" id="s-gate">
+    <div class="hero-eyebrow serif">亲 子 关 系 画 像 测 试</div>
+    <h1 class="hero-title serif">爱的错位</h1>
+    <div class="hero-sub">你是哪一种<b>中国式家长</b>？你又是哪一种<b>孩子</b>？</div>
+    <div class="hero-divider"></div>
+
+    <div class="quote-card">
+      <div class="who">《我家那闺女》观察室 · 张家齐之问</div>
+      <div class="what">「你有没有问过娃娃，<b>她觉得你跟她亲不亲？</b>」</div>
+      <div class="note">她把自己归类为「心硬的孩子」，把代露娃归类为「心软的孩子」。</div>
+    </div>
+    <div class="quote-card">
+      <div class="who">两种都不是「不爱」的妈妈</div>
+      <div class="what">一边是<b>考核式关爱</b>：工资卡代管、13.1克金项链「怕你弄丢」、「你又不懂」。<br>
+      一边是<b>沉默式托举</b>：做月嫂攒下十几万供艺考、备好卖房的预案，却记不住女儿不吃香菜。</div>
+      <div class="note">两个故事被网友吵上热搜。但真正的命题是：她们给出的爱，和孩子接收到的爱，从来不是一回事。</div>
+    </div>
+
+    <!-- 密码输入态 -->
+    <div class="gate-box" id="gate-input">
+      <div class="gate-title">🔐 输入测评密码</div>
+      <div class="gate-tip">每个密码可测评 3 次 · 密码请向店铺客服索取</div>
+      <input class="pwd-input" id="pwd" maxlength="20" placeholder="请输入测评密码" autocomplete="off" />
+      <button class="btn btn-main" id="btn-verify">验证密码</button>
+      <div class="gate-msg" id="gate-msg"></div>
+    </div>
+
+    <!-- 模式选择态（验证通过后显示） -->
+    <div class="gate-box" id="gate-mode" style="display:none">
+      <div class="gate-title">✅ 密码验证通过</div>
+      <div class="gate-tip">选择测评模式，然后开始答题</div>
+      <div class="mode-cards" id="mode-cards">
+        <div class="mode-card sel" data-mode="both">
+          <div class="mt">🧑‍🤝‍🧑 双卷都测（推荐）</div>
+          <div class="md">家长卷 12 题 + 孩子卷 12 题，共 24 题，生成错位组合报告</div>
+        </div>
+        <div class="mode-card" data-mode="parent">
+          <div class="mt">🫖 只测家长卷</div>
+          <div class="md">12 题，测你「给出爱」的模式</div>
+        </div>
+        <div class="mode-card" data-mode="child">
+          <div class="mt">🪨 只测孩子卷</div>
+          <div class="md">12 题，测你「接收爱」的模式</div>
+        </div>
+      </div>
+      <div><span class="remain-pill" id="remain-pill">本密码还可测 3 次</span></div>
+      <button class="btn btn-main" id="btn-start">开始测评</button>
+      <button class="btn btn-ghost btn-sm" id="btn-switch">换个密码</button>
+    </div>
+  </section>
+
+  <!-- ============ 两卷之间的过渡 ============ -->
+  <section class="screen" id="s-mid">
+    <div class="mid-card">
+      <div class="mid-emoji">🪞</div>
+      <div class="mid-title serif">第二卷 · 孩子卷</div>
+      <div class="mid-text">
+        <p>现在，请先放下「家长」的身份。</p>
+        <p>接下来 12 道题，测的是<b>你作为「孩子」的接收模式</b>——你怎么接爱、怎么防御、怎么对待那句「我都是为你好」。</p>
+        <p>很多人会在两卷之间，看见那条隐秘的线：<b>我成了当年自己最怕的那种父母，而我的孩子，正在变成当年那个我。</b>这就是心理学说的「代际传递」。</p>
+      </div>
+      <button class="btn btn-main" style="margin-top:22px" onclick="App.resumeChild()">进入孩子卷</button>
+    </div>
+  </section>
+
+  <!-- ============ 答题 ============ -->
+  <section class="screen" id="s-quiz">
+    <div class="pbar"><div class="pfill" id="pfill"></div></div>
+    <div class="pmeta"><span id="pvol">家长卷</span><span id="pnum">第 1 / 12 题</span></div>
+    <div class="q-scene" id="qscene"></div>
+    <div id="qopts"></div>
+    <button class="qback" id="qback" onclick="App.goBack()">← 上一题</button>
+  </section>
+
+  <!-- ============ 加载 ============ -->
+  <section class="screen" id="s-loading">
+    <div class="mid-card">
+      <div class="spinner"></div>
+      <div class="load-step" id="loadstep">正在比对 24 个作答维度……</div>
+    </div>
+  </section>
+
+  <!-- ============ 结果 ============ -->
+  <section class="screen" id="s-result">
+    <!-- 长图捕获区 -->
+    <div id="capture"></div>
+    <!-- 操作区（不进入长图） -->
+    <div class="no-capture">
+      <div class="result-code-box">
+        <div style="font-size:12.5px;color:var(--ink3)">你的结果码（对比 / 找回结果用）</div>
+        <div class="result-code" id="result-code">------</div>
+      </div>
+      <div class="action-grid">
+        <button class="btn btn-main" id="btn-save-img">📷 保存长图</button>
+        <button class="btn btn-gold" id="btn-copy-link">🔗 复制结果链接</button>
+        <button class="btn btn-ghost" id="btn-compare">🆚 对比结果</button>
+        <button class="btn btn-ghost" id="btn-retest">🔁 再测一次</button>
+        <button class="btn btn-main wide" id="btn-review">🎁 好评有礼</button>
+      </div>
+      <div class="foot">本测试为娱乐性自我觉察工具，非临床心理诊断。结果仅供反思与沟通参考。</div>
+    </div>
+  </section>
+
+</div>
+
+<!-- ============ 长图弹窗 ============ -->
+<div class="modal-mask" id="img-modal">
+  <div class="modal">
+    <div class="modal-title">📷 保存你的结果长图</div>
+    <div class="img-wrap"><img id="img-out" alt="测评结果长图" /></div>
+    <div class="img-hint" id="img-hint">手机：长按图片即可保存到相册<br>电脑：右键图片另存为</div>
+    <div class="btn-row">
+      <button class="btn btn-ghost" onclick="App.closeModal('img-modal')">关闭</button>
+      <button class="btn btn-main" id="btn-download-img">⬇️ 下载图片</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ 好评有礼弹窗 ============ -->
+<div class="modal-mask" id="review-modal">
+  <div class="modal">
+    <div class="modal-title">🎁 好评有礼</div>
+    <div class="modal-body" id="review-body"></div>
+    <div class="copy-line">
+      <span class="v" id="review-service">--</span>
+      <button class="btn btn-gold btn-sm" style="margin-top:0;flex:none" id="btn-copy-service">复制</button>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-ghost" onclick="App.closeModal('review-modal')">知道啦</button>
+    </div>
+  </div>
+</div>
+
+<div class="cfg-warn" id="cfg-warn" style="display:none">
+  ⚠️ 网站尚未配置 Supabase：请编辑 <b>supabase-config.js</b>，填入你的项目 URL 和 anon key
+</div>
+<div class="toast" id="toast"></div>
+
+<script src="./vendor/supabase.js"></script>
+<script src="./supabase-config.js"></script>
+<script src="./js/data.js"></script>
+<script src="./js/render.js"></script>
+<script src="./js/api.js"></script>
+<script src="./js/app.js"></script>
+</body>
+</html>

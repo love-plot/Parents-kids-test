@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>密码管理后台 · 爱的错位</title>
+<link rel="stylesheet" href="./css/style.css" />
+</head>
+<body>
+<div id="app" class="admin-wrap">
+
+  <!-- 登录 -->
+  <section class="screen on" id="s-login">
+    <div class="admin-login">
+      <div class="hero-eyebrow serif">管 理 后 台</div>
+      <h1 class="hero-title serif" style="font-size:30px">密码管理</h1>
+      <div class="hero-divider"></div>
+      <div class="gate-box">
+        <div class="gate-title">🔑 管理员登录</div>
+        <div class="gate-tip">使用 Supabase Auth 管理员账号（在 Supabase 控制台 Authentication 中创建）</div>
+        <input class="pwd-input" id="admin-email" maxlength="60" placeholder="管理员邮箱" autocomplete="username" style="letter-spacing:normal;text-transform:none" />
+        <div style="height:10px"></div>
+        <input class="pwd-input" id="admin-pwd" type="password" maxlength="40" placeholder="密码" autocomplete="current-password" style="letter-spacing:normal;text-transform:none" />
+        <button class="btn btn-main" id="btn-login">进入后台</button>
+        <div class="gate-msg err" id="login-msg"></div>
+        <a class="btn btn-ghost btn-sm" href="./index.html" style="text-decoration:none;display:block;text-align:center">回到首页</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 主界面 -->
+  <section class="screen" id="s-main">
+    <div class="admin-top">
+      <h2 class="serif">📋 密码管理后台</h2>
+      <button class="btn btn-ghost btn-sm" style="margin-top:0" id="btn-logout">退出</button>
+    </div>
+
+    <div class="stat-cards">
+      <div class="stat-card"><div class="n" id="st-pwd">0</div><div class="l">密码总数</div></div>
+      <div class="stat-card"><div class="n" id="st-use">0</div><div class="l">已消耗次数</div></div>
+      <div class="stat-card"><div class="n" id="st-res">0</div><div class="l">测评结果数</div></div>
+    </div>
+
+    <div class="gen-bar">
+      <div class="f"><label>生成数量</label><input id="gen-count" type="number" value="10" min="1" max="200" /></div>
+      <div class="f"><label>每个密码次数</label><input id="gen-uses" type="number" value="3" min="1" max="99" /></div>
+      <div class="f"><label>前缀（可选）</label><input id="gen-prefix" maxlength="10" placeholder="如 SHOP" /></div>
+      <div class="f"><label>备注（可选）</label><input id="gen-note" maxlength="50" placeholder="如 10月批次" /></div>
+      <button class="btn btn-main btn-sm" id="btn-generate" style="margin-top:0">生成密码</button>
+      <button class="btn btn-ghost btn-sm" id="btn-copy-all" style="margin-top:0">复制全部密码</button>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>密码</th><th>次数</th><th>已用</th><th>剩余</th><th>状态</th><th>备注</th><th>生成时间</th><th>操作</th></tr>
+        </thead>
+        <tbody id="pwd-tbody"></tbody>
+      </table>
+    </div>
+    <div class="foot">提示：密码不区分大小写；停用后的密码无法再开始新测评，已生成的结果不受影响。</div>
+  </section>
+</div>
+<div class="toast" id="toast"></div>
+
+<script src="./vendor/supabase.js"></script>
+<script src="./supabase-config.js"></script>
+<script src="./js/api.js"></script>
+<script src="./js/admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>结果对比 · 爱的错位</title>
+<link rel="stylesheet" href="./css/style.css" />
+</head>
+<body>
+<div id="app">
+  <div class="hero-eyebrow serif">结 果 对 比</div>
+  <h1 class="hero-title serif" style="font-size:34px">你们家的错位</h1>
+  <div class="hero-sub">输入两个人的结果码（或从本机记录选择），看看你们爱的方式差在哪里</div>
+  <div class="hero-divider"></div>
+
+  <div class="gate-box">
+    <div class="cmp-inputs">
+      <div class="cmp-field">
+        <label>👤 结果码 A（比如：爸爸 / 家长）</label>
+        <input id="code-a" maxlength="6" placeholder="6位结果码" autocomplete="off" />
+        <div class="recent-pick" id="recent-a"></div>
+      </div>
+      <div class="cmp-field">
+        <label>👤 结果码 B（比如：妈妈 / 孩子）</label>
+        <input id="code-b" maxlength="6" placeholder="6位结果码" autocomplete="off" />
+        <div class="recent-pick" id="recent-b"></div>
+      </div>
+    </div>
+    <button class="btn btn-main" id="btn-compare">开始对比</button>
+    <a class="btn btn-ghost btn-sm" href="./index.html" style="text-decoration:none;display:block;text-align:center">回到首页</a>
+    <div class="gate-msg err" id="cmp-msg"></div>
+  </div>
+
+  <div id="cmp-out"></div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script src="./vendor/supabase.js"></script>
+<script src="./supabase-config.js"></script>
+<script src="./js/data.js"></script>
+<script src="./js/render.js"></script>
+<script src="./js/api.js"></script>
+<script src="./js/compare.js"></script>
+</body>
+</html>
